@@ -1,0 +1,16 @@
+{
+  "name": "static-file-server",
+  "version": "1.0.0",
+  "description": "A simple Node.js static file server without Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["nodejs", "static-server", "http-server"],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
