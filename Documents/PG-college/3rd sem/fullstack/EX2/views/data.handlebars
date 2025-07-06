@@ -1,0 +1,23 @@
+<div class="data-container">
+  <h1>Submitted Data</h1>
+  <div class="submissions-list">
+    {{#if submissions.length}}
+      {{#each submissions}}
+        <div class="submission-card">
+          <div><strong>Name:</strong> {{this.name}}</div>
+          <div><strong>Email:</strong> {{this.email}}</div>
+          <div><strong>Phone:</strong> {{this.phone}}</div>
+          <div><strong>Address:</strong> {{this.address}}</div>
+          <div><strong>Age:</strong> {{this.age}}</div>
+          <div><strong>Gender:</strong> {{this.gender}}</div>
+          {{#if this.comments}}
+            <div><strong>Comments:</strong> {{this.comments}}</div>
+          {{/if}}
+        </div>
+      {{/each}}
+    {{else}}
+      <p>No submissions yet.</p>
+    {{/if}}
+  </div>
+  <a href="/" class="back-btn">Back to form</a>
+</div> 
