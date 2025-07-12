@@ -1,4 +1,4 @@
-# My Project Description:Start the Server: The developer runs node app.js, which starts the Express server and makes it listen for requests on a specific port (e.g., 3000).
+# My Project Description:
 Load the Form: A user navigates to http://localhost:3000/. The GET route for / in app.js is triggered, which renders the home.hbs template and sends the HTML form to the user's browser.
 Submit Data: The user fills out the form and clicks Submit. This action sends a POST request to the /submit route, with the form data included in the request body.
 Process and Store Data: The POST route for /submit in app.js is triggered.
