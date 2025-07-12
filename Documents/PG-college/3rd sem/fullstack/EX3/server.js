@@ -13,7 +13,7 @@ const Student = require('./models/Student');
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://sriraghavardhinim24mca:1234@cluster0.le3xbg9.mongodb.net/')
+mongoose.connect('url')
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
 
