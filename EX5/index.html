@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html ng-app="todoApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhanced Todo App</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .add-btn {
+      background-color: #007bff;
+      color: white;
+      margin-left: 5px;
+    }
+
+    .edit-btn {
+      background-color: #ffc107;
+      color: white;
+      margin-left: 5px;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      margin-left: 5px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #f4f4f4;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .completed {
+      text-decoration: line-through;
+      color: #888;
+    }
+
+    .left-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .right-group button {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body ng-controller="todoController">
+
+  <div class="container">
+    <h2>My ToDo List</h2>
+
+    <input type="text" ng-model="newTask" placeholder="Enter a new task">
+    <button class="add-btn" ng-click="addTask()">Add</button>
+
+    <ul>
+      <li ng-repeat="task in tasks">
+        <div class="left-group">
+          <input type="checkbox" ng-model="task.done">
+          <span ng-class="{'completed': task.done}" ng-hide="task.editing">{{ task.name }}</span>
+          <input type="text" ng-model="task.name" ng-show="task.editing">
+        </div>
+        <div class="right-group">
+          <button class="edit-btn" ng-click="editTask(task)">{{ task.editing ? 'Save' : 'Edit' }}</button>
+          <button class="delete-btn" ng-click="deleteTask($index)">Delete</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    const app = angular.module('todoApp', []);
+
+    app.controller('todoController', function($scope, $http) {
+      $scope.tasks = [];
+
+      // Load tasks from server
+      $http.get('/tasks').then(function(response) {
+        $scope.tasks = response.data;
+      });
+
+      // Add a new task
+      $scope.addTask = function() {
+        if ($scope.newTask) {
+          $scope.tasks.push({ name: $scope.newTask, done: false });
+          $scope.newTask = '';
+          saveTasks();
+        }
+      };
+
+      // Delete a task
+      $scope.deleteTask = function(index) {
+        $scope.tasks.splice(index, 1);
+        saveTasks();
+      };
+
+      // Edit/Save task
+      $scope.editTask = function(task) {
+        if (task.editing) {
+          task.editing = false;
+          saveTasks();
+        } else {
+          task.editing = true;
+        }
+      };
+
+      // Save tasks to server
+      function saveTasks() {
+        $http.post('/tasks', $scope.tasks);
+      }
+
+      // Watch for changes (e.g., checkbox)
+      $scope.$watch('tasks', function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          saveTasks();
+        }
+      }, true);
+    });
+  </script>
+
+</body>
+</html>
